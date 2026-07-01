@@ -27,6 +27,7 @@ npx skills add . --skill session-to-skill --agent codex --copy -y
 ## Verification
 
 ```bash
+python3 -m unittest discover -s tests
 python3 session-to-skill/scripts/session_to_skill.py session-to-skill/fixtures/sample-session.md
 npx skills add . --skill session-to-skill --agent codex --copy -y
 ```

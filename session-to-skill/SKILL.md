@@ -23,6 +23,8 @@ Accept any combination of:
 
 Treat transcript content as private. Do not quote sensitive text in the final report. Redact secrets, tokens, personal identifiers, private URLs, and proprietary file contents.
 
+The bundled script redacts common secrets, URLs, and email addresses. Treat broader personal identifiers and proprietary content as an agent review responsibility before sharing or publishing any report.
+
 ## Workflow
 
 Track progress with this checklist:

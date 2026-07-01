@@ -50,6 +50,7 @@ def redact(text: str) -> str:
     redacted = text
     for pattern in SECRET_PATTERNS:
         redacted = pattern.sub(lambda m: f"{m.group(1) if m.groups() else 'secret'}=[REDACTED]", redacted)
+    redacted = re.sub(r"https?://\S+", "[URL]", redacted)
     redacted = re.sub(r"[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}", "[EMAIL]", redacted)
     return redacted
 
@@ -104,7 +105,6 @@ def extract_events(paths: list[Path]) -> list[Event]:
 
 
 def normalize_phrase(text: str) -> str:
-    text = re.sub(r"https?://\S+", "[URL]", text)
     text = re.sub(r"\s+", " ", text).strip()
     return text[:120]
 
