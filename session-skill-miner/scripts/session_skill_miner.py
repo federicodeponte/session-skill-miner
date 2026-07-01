@@ -184,7 +184,7 @@ def render_report(paths: list[Path], events: list[Event]) -> str:
     rows = proposal_rows(events, scores)
 
     lines = [
-        "# Session To Skill Signal Report",
+        "# Session Skill Miner Signal Report",
         "",
         "## Inputs",
         "",

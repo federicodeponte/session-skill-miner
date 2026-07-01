@@ -1,9 +1,9 @@
 ---
-name: session-to-skill
+name: session-skill-miner
 description: Mine agent session logs or exported transcripts for repeated workflows, corrections, and friction patterns, then propose or draft reusable Agent Skills. Use when the user asks to turn chat/session logs into skills, mine sessions for reusable workflows, extract rules from repeated corrections, improve an agent setup from transcripts, or create optional Floom worker bundle drafts from recurring work.
 ---
 
-# Session To Skill
+# Session Skill Miner
 
 Turn agent session history into reusable operating knowledge:
 
@@ -58,7 +58,7 @@ For large raw JSONL files, use byte search only to locate candidate files. Do no
 Run the bundled extractor on candidate files:
 
 ```bash
-python3 session-to-skill/scripts/session_to_skill.py <session-or-directory> --out /tmp/session-to-skill-report.md
+python3 session-skill-miner/scripts/session_skill_miner.py <session-or-directory> --out /tmp/session-skill-miner-report.md
 ```
 
 Use the report as scaffolding, not as final authority. The script gives counts, repeated phrases, command hints, correction hints, and a first-pass proposal table.
@@ -105,7 +105,7 @@ For rule candidates, require at least 2 repeated corrections unless the user exp
 Do not create or edit files before approval. Present:
 
 ```markdown
-## Session To Skill Report
+## Session Skill Miner Report
 
 ### Recommended Skill Drafts
 | Candidate | Action | Evidence | Why it passes | Proposed name |
@@ -174,6 +174,6 @@ Never push, schedule, enable, or run a worker that performs external actions unt
 
 ## Bundled Resources
 
-- `scripts/session_to_skill.py`: deterministic signal extractor for Markdown, text, and JSONL session files.
+- `scripts/session_skill_miner.py`: deterministic signal extractor for Markdown, text, and JSONL session files.
 - `fixtures/sample-session.md`: redacted fixture for local verification.
 - `fixtures/expected-report.md`: expected report shape for the fixture.

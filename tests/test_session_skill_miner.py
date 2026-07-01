@@ -6,22 +6,22 @@ import unittest
 from pathlib import Path
 
 
-MODULE_PATH = Path(__file__).resolve().parents[1] / "session-to-skill" / "scripts" / "session_to_skill.py"
-spec = importlib.util.spec_from_file_location("session_to_skill", MODULE_PATH)
-session_to_skill = importlib.util.module_from_spec(spec)
+MODULE_PATH = Path(__file__).resolve().parents[1] / "session-skill-miner" / "scripts" / "session_skill_miner.py"
+spec = importlib.util.spec_from_file_location("session_skill_miner", MODULE_PATH)
+session_skill_miner = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
-sys.modules["session_to_skill"] = session_to_skill
-spec.loader.exec_module(session_to_skill)
+sys.modules["session_skill_miner"] = session_skill_miner
+spec.loader.exec_module(session_skill_miner)
 
 
 class SessionToSkillTests(unittest.TestCase):
     def test_markdown_fixture_matches_expected_report(self):
         root = Path(__file__).resolve().parents[1]
-        fixture = Path("session-to-skill/fixtures/sample-session.md")
-        expected = (root / "session-to-skill" / "fixtures" / "expected-report.md").read_text(encoding="utf-8")
+        fixture = Path("session-skill-miner/fixtures/sample-session.md")
+        expected = (root / "session-skill-miner" / "fixtures" / "expected-report.md").read_text(encoding="utf-8")
 
-        events = session_to_skill.extract_events([fixture])
-        report = session_to_skill.render_report([fixture], events)
+        events = session_skill_miner.extract_events([fixture])
+        report = session_skill_miner.render_report([fixture], events)
 
         self.assertEqual(report, expected)
 
@@ -49,7 +49,7 @@ class SessionToSkillTests(unittest.TestCase):
             ]
             path.write_text("\n".join(json.dumps(row) for row in rows), encoding="utf-8")
 
-            events = session_to_skill.extract_events([path])
+            events = session_skill_miner.extract_events([path])
             text = "\n".join(event.text for event in events)
 
             self.assertIn("api_key=[REDACTED]", text)
@@ -66,7 +66,7 @@ class SessionToSkillTests(unittest.TestCase):
             (root / "a.md").write_text("Create a skill from this repeated workflow.", encoding="utf-8")
             (root / "b.bin").write_bytes(b"\x00\x01\x02")
 
-            events = session_to_skill.extract_events([root])
+            events = session_skill_miner.extract_events([root])
 
             self.assertEqual(len(events), 1)
             self.assertEqual(events[0].source.name, "a.md")
@@ -74,7 +74,7 @@ class SessionToSkillTests(unittest.TestCase):
     def test_report_handles_empty_corpus(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
-            report = session_to_skill.render_report([root], [])
+            report = session_skill_miner.render_report([root], [])
 
             self.assertIn("- Files scanned: 0", report)
             self.assertIn("| No candidate | 0 |", report)

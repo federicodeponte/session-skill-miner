@@ -1,8 +1,8 @@
-# Session To Skill Signal Report
+# Session Skill Miner Signal Report
 
 ## Inputs
 
-- `session-to-skill/fixtures/sample-session.md`
+- `session-skill-miner/fixtures/sample-session.md`
 
 ## Corpus
 

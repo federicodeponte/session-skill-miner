@@ -1,4 +1,4 @@
-# session-to-skill
+# session-skill-miner
 
 Mine agent session logs for repeated workflows, corrections, and friction patterns, then turn the useful findings into reusable Agent Skills.
 
@@ -7,19 +7,19 @@ Mine agent session logs for repeated workflows, corrections, and friction patter
 After this repository is published:
 
 ```bash
-npx skills add <owner>/<repo> --skill session-to-skill
+npx skills add <owner>/<repo> --skill session-skill-miner
 ```
 
 For local testing:
 
 ```bash
-npx skills add . --skill session-to-skill --agent codex --copy -y
+npx skills add . --skill session-skill-miner --agent codex --copy -y
 ```
 
 ## What It Does
 
 - Reads exported Markdown, plain text, or JSONL session logs.
-- Extracts deterministic signals with `scripts/session_to_skill.py`.
+- Extracts deterministic signals with `scripts/session_skill_miner.py`.
 - Guides an agent through candidate classification and a worth-it gate.
 - Drafts Agent Skill artifacts after approval.
 - Optionally drafts Floom worker bundles for repeatable jobs with stable inputs and outputs.
@@ -28,6 +28,6 @@ npx skills add . --skill session-to-skill --agent codex --copy -y
 
 ```bash
 python3 -m unittest discover -s tests
-python3 session-to-skill/scripts/session_to_skill.py session-to-skill/fixtures/sample-session.md
-npx skills add . --skill session-to-skill --agent codex --copy -y
+python3 session-skill-miner/scripts/session_skill_miner.py session-skill-miner/fixtures/sample-session.md
+npx skills add . --skill session-skill-miner --agent codex --copy -y
 ```
