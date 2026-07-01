@@ -22,7 +22,7 @@ npx skills add . --skill session-skill-miner --agent codex --copy -y
 - Extracts deterministic signals with `scripts/session_skill_miner.py`.
 - Guides an agent through candidate classification and a worth-it gate.
 - Drafts Agent Skill artifacts after approval.
-- Optionally drafts Floom worker bundles for repeatable jobs with stable inputs and outputs.
+- Optionally drafts Floom agent-worker specifications for repeatable jobs with stable inputs and outputs.
 
 ## Verification
 

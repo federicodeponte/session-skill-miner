@@ -1,6 +1,6 @@
 ---
 name: session-skill-miner
-description: Mine agent session logs or exported transcripts for repeated workflows, corrections, and friction patterns, then propose or draft reusable Agent Skills. Use when the user asks to turn chat/session logs into skills, mine sessions for reusable workflows, extract rules from repeated corrections, improve an agent setup from transcripts, or create optional Floom worker bundle drafts from recurring work.
+description: Mine agent session logs or exported transcripts for repeated workflows, corrections, and friction patterns, then propose or draft reusable Agent Skills. Use when the user asks to turn chat/session logs into skills, mine sessions for reusable workflows, extract rules from repeated corrections, improve an agent setup from transcripts, or create optional Floom agent-worker specs from recurring work.
 ---
 
 # Session Skill Miner
@@ -10,11 +10,11 @@ Turn agent session history into reusable operating knowledge:
 - New Agent Skill candidates.
 - Updates to existing skills.
 - Global instruction or memory candidates.
-- Optional Floom worker bundle drafts for repeatable jobs with clear inputs and outputs.
+- Optional Floom agent-worker specification drafts for repeatable jobs with clear inputs and outputs.
 
 ## Inputs
 
-Accept any combination of:
+Accept only user-provided inputs:
 
 - Exported session Markdown.
 - Raw JSONL transcript files.
@@ -24,6 +24,8 @@ Accept any combination of:
 Treat transcript content as private. Do not quote sensitive text in the final report. Redact secrets, tokens, personal identifiers, private URLs, and proprietary file contents.
 
 The bundled script redacts common secrets, URLs, and email addresses. Treat broader personal identifiers and proprietary content as an agent review responsibility before sharing or publishing any report.
+
+Do not scan default home, hidden agent-state, or project-history directories unless the user explicitly names that path in the current request. Do not run package-installing commands while mining logs.
 
 ## Workflow
 
@@ -42,14 +44,6 @@ Track progress with this checklist:
 ### 1. Locate And Normalize Sessions
 
 If the user gives files, inspect those files directly. If the user gives a directory, prefer Markdown exports when present and use JSONL as a fallback.
-
-Common locations:
-
-```bash
-find ~/.claude/projects -name '*.jsonl' 2>/dev/null | tail
-find ~/.codex/sessions -name '*.jsonl' 2>/dev/null | tail
-find . -iname '*session*.md' -o -iname '*.jsonl'
-```
 
 For large raw JSONL files, use byte search only to locate candidate files. Do not load huge tool payloads into context.
 
@@ -85,7 +79,7 @@ Assign each finding to exactly one category:
 | Skill update | Existing skill nearly covers the pattern | Patch proposal |
 | Rule candidate | Repeated correction or global constraint | Instruction text |
 | Memory candidate | Stable preference, fact, or environment detail | Memory text |
-| Floom worker candidate | Repeatable job has stable inputs, outputs, and done state | `worker.yml` plus `SKILL.md` or `run.py` draft |
+| Floom agent-worker candidate | Repeatable job has stable inputs, outputs, and done state | `worker.yml` plus `SKILL.md` draft |
 | No action | One-off task or not worth preserving | Brief rationale |
 
 ### 5. Apply The Worth-It Gate
@@ -119,7 +113,7 @@ Do not create or edit files before approval. Present:
 | Type | Evidence | Proposed text |
 | --- | --- | --- |
 
-### Optional Floom Worker Bundles
+### Optional Floom Agent-Worker Specs
 | Candidate | Trigger | Inputs | Outputs | Mode |
 | --- | --- | --- | --- | --- |
 
@@ -146,22 +140,15 @@ skills/<name>/
 
 Write `SKILL.md` with only `name` and `description` in YAML frontmatter. Put trigger phrases in the description. Keep the body procedural and under 500 lines.
 
-For optional Floom worker bundles:
+For optional Floom agent-worker specifications:
 
 ```text
 workers/<name>/
   worker.yml
-  SKILL.md    # agent mode
-  run.py      # script mode
+  SKILL.md
 ```
 
-Validate a Floom worker bundle when the CLI is available:
-
-```bash
-npx -y @floomhq/floom workers validate workers/<name>
-```
-
-Never push, schedule, enable, or run a worker that performs external actions until the user approves that exact action.
+Keep worker output as a draft specification unless the user explicitly asks to validate or publish it in an environment where the Floom CLI is already installed. Never install packages, push, schedule, enable, or run a worker that performs external actions until the user approves that exact action.
 
 ## Quality Bar
 
